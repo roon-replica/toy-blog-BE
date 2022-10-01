@@ -8,9 +8,12 @@
 - java 11
 - spring framework
   - springboot
+  - spring mvc
   - spring data jpa
   - spring security
   - spring integration
 - gradle
 - mysql
+- aws S3
+- swagger UI
 
