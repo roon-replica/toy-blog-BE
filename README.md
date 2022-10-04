@@ -3,6 +3,9 @@
 - 개발부터 배포까지 진행 예정
 - 개발, 배포, 협업 연습
 
+### apis
+- api 명세 보는 방법 : 애플리케이션 구동 후 http://localhost:8080/swagger-ui.html 접속
+
 
 ### BE 개발 스택
 - java 11
@@ -16,4 +19,6 @@
 - mysql
 - aws S3
 - swagger UI
+
+
 
