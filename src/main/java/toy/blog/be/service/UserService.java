@@ -10,8 +10,6 @@ import toy.blog.be.domain.UserInfo;
 import toy.blog.be.domain.value.Role;
 import toy.blog.be.repository.UserRepository;
 
-import javax.persistence.EntityNotFoundException;
-
 @RequiredArgsConstructor
 @Service
 public class UserService implements UserDetailsService {
