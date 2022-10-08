@@ -51,6 +51,8 @@ public class Post {
         this.content = content;
         this.writerId = writerId;
 
+        this.modifiedAt = LocalDateTime.now();
+
     }
 
 }
