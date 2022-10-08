@@ -5,9 +5,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import javax.validation.constraints.NotBlank;
+
 @Data
 public class PagedRequest {
+    @NotBlank
     private int page;
+
+    @NotBlank
     private int size;
 
     public PagedRequest(int page, int size) {
