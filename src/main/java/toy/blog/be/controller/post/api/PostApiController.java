@@ -24,7 +24,7 @@ public class PostApiController {
 
     @Operation(summary = "get paged posts")
     @GetMapping
-    public ResponseEntity<PagedResponse<PostResponse, Post>> getPosts(@Valid @RequestBody PagedRequest pagedRequest) {
+    public ResponseEntity<PagedResponse<PostResponse, Post>> getPosts(@RequestBody @Valid PagedRequest pagedRequest) {
         return ResponseEntity.ok()
                 .body(postService.getPosts(pagedRequest));
     }
@@ -38,7 +38,7 @@ public class PostApiController {
 
     @Operation(summary = "create post")
     @PostMapping("/create-post")
-    public ResponseEntity<String> createPost(@RequestBody PostCreateRequest requestDTO) {
+    public ResponseEntity<String> createPost(@RequestBody @Valid PostCreateRequest requestDTO) {
         return ResponseEntity.ok()
                 .body(postService.createPost(
                                 requestDTO.getTitle(),
@@ -51,7 +51,7 @@ public class PostApiController {
 
     @Operation(summary = "update post")
     @PostMapping("/update-post")
-    public ResponseEntity<String> updatePost(@RequestBody PostUpdateRequest requestDTO) {
+    public ResponseEntity<String> updatePost(@RequestBody @Valid PostUpdateRequest requestDTO) {
         return ResponseEntity.ok()
                 .body(postService.updatePost(
                         requestDTO.getPostId(),
