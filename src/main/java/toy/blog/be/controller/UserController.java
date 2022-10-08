@@ -1,5 +1,6 @@
 package toy.blog.be.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -14,9 +15,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public String signup(SignUpRequest request) {
-        String id = userService.save(request.getEmail(), request.getPassword(), request.getConfirmPassword());
-        return id;
+    public ResponseEntity<Void> signup(SignUpRequest request) {
+        userService.save(request.getEmail(), request.getPassword(), request.getConfirmPassword());
+        return ResponseEntity.ok().build();
 
         //return "redirect:/login";
     }
