@@ -1,4 +1,4 @@
-package toy.blog.be.domain;
+package toy.blog.be.domain.value;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
