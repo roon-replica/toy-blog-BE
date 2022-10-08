@@ -6,7 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import toy.blog.be.domain.UserInfo;
 
-public interface UserRepository extends JpaRepository<UserInfo, Long> {
-
-	Optional<UserInfo> findByEmail(String email);
+public interface UserRepository extends JpaRepository<UserInfo, String> {
 }
