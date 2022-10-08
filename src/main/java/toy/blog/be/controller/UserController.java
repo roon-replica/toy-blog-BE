@@ -11,7 +11,7 @@ import toy.blog.be.user.dto.UserInfoDto;
 @Controller
 public class UserController {
 
-	private UserService userService;
+	private final UserService userService;
 	
 	@PostMapping("/user")
 	public String signup(UserInfoDto infoDto) {

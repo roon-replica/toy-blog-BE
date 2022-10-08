@@ -15,7 +15,7 @@ import toy.blog.be.user.dto.UserInfoDto;
 @Service
 public class UserService implements UserDetailsService {
 
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 
 	@Override
 	public UserInfo loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -23,7 +23,7 @@ public class UserService implements UserDetailsService {
 		return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email)) ;
 	}
 	
-	public Long save(UserInfoDto infoDto) {
+	public String save(UserInfoDto infoDto) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		infoDto.setPassword(encoder.encode(infoDto.getPassword()));
 

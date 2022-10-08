@@ -18,6 +18,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import toy.blog.be.infra.IdGenerator;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -26,8 +27,7 @@ public class UserInfo implements UserDetails {
 	
 	@Id
 	@Column(name = "code")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long code;
+	private String code;
 	
 	@Column(name = "email", unique = true)
 	private String email;
@@ -40,6 +40,7 @@ public class UserInfo implements UserDetails {
 	
 	@Builder
 	public UserInfo(String email, String password, String auth) {
+		this.code = IdGenerator.newId();
 		this.email = email;
 		this.password = password;
 		this.auth = auth;

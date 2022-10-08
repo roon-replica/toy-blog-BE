@@ -15,7 +15,7 @@ import toy.blog.be.service.UserService;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private UserService userService;
+	private final UserService userService;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
