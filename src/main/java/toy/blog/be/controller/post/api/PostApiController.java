@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import toy.blog.be.controller.PagedRequest;
 import toy.blog.be.controller.PagedResponse;
 import toy.blog.be.controller.post.dto.request.PostCreateRequest;
+import toy.blog.be.controller.post.dto.request.PostUpdateRequest;
 import toy.blog.be.controller.post.dto.response.PostResponse;
 import toy.blog.be.domain.Post;
 import toy.blog.be.service.PostService;
 
 import javax.validation.Valid;
 
-@Tag(name="post apis")
+@Tag(name = "post apis")
 @RequiredArgsConstructor
 @RequestMapping("/posts")
 @RestController
@@ -39,14 +40,26 @@ public class PostApiController {
     @PostMapping("/create-post")
     public ResponseEntity<String> createPost(@RequestBody PostCreateRequest requestDTO) {
         return ResponseEntity.ok()
-                .body(postService.createPost());
+                .body(postService.createPost(
+                                requestDTO.getTitle(),
+                                requestDTO.getContent(),
+                                requestDTO.getWriterId(),
+                                requestDTO.getKeywords()
+                        )
+                );
     }
 
     @Operation(summary = "update post")
     @PostMapping("/update-post")
-    public ResponseEntity<String> updatePost(@RequestBody PostCreateRequest requestDTO) {
+    public ResponseEntity<String> updatePost(@RequestBody PostUpdateRequest requestDTO) {
         return ResponseEntity.ok()
-                .body(postService.updatePost());
+                .body(postService.updatePost(
+                        requestDTO.getPostId(),
+                        requestDTO.getTitle(),
+                        requestDTO.getContent(),
+                        requestDTO.getWriterId(),
+                        requestDTO.getKeywords())
+                );
     }
 
     // todo:
@@ -55,9 +68,8 @@ public class PostApiController {
     // 이벤트 기반으로 구현?
     @Operation(summary = "delete post")
     @PostMapping("/delete-post")
-    public ResponseEntity<String> deletePost(String postId) {
-        return ResponseEntity.ok()
-                .body(postService.deletePost());
+    public ResponseEntity<Void> deletePost(String postId) {
+        postService.deletePost(postId);
+        return ResponseEntity.ok().build();
     }
-
 }

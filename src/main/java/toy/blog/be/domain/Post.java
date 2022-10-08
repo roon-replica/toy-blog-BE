@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -42,6 +43,14 @@ public class Post {
         var now = LocalDateTime.now();
         this.createdAt = now;
         this.modifiedAt = now;
+    }
+
+    //todo: keyword 아직 구현 안 됨
+    public void update(String title, String content, String writerId, List<String> keywords){
+        this.title =title;
+        this.content = content;
+        this.writerId = writerId;
+
     }
 
 }

@@ -9,9 +9,11 @@ import toy.blog.be.controller.PagedRequest;
 import toy.blog.be.controller.PagedResponse;
 import toy.blog.be.controller.post.dto.response.PostResponse;
 import toy.blog.be.domain.Post;
+import toy.blog.be.infra.IdGenerator;
 import toy.blog.be.repository.PostRepository;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
@@ -46,18 +48,34 @@ public class PostService {
         return converter.apply(post);
     }
 
+    //todo: keyword 관리 로직 구현 필요
     @Transactional
-    public String createPost(){
-        return null;
+    public String createPost(String title, String content, String writerId, List<String> keywords) {
+        var post = Post.builder()
+                .id(IdGenerator.newId())
+                .title(title)
+                .content(content)
+                .writerId(writerId)
+                .build();
+
+        return postRepository.save(post).getId();
     }
 
     @Transactional
-    public String updatePost(){
-        return null;
+    public String updatePost(String id, String title, String content, String writerId, List<String> keywords) {
+        var post = postRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+
+        post.update(title, content, writerId, keywords);
+
+        return post.getId();
     }
 
     @Transactional
-    public String deletePost(){
-        return null;
+    public void deletePost(String id) {
+        var post = postRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+
+        postRepository.delete(post);
     }
 }
