@@ -10,12 +10,13 @@ import toy.blog.be.domain.UserInfo;
 import toy.blog.be.domain.value.Role;
 import toy.blog.be.repository.UserRepository;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
 
     @Override
     public UserInfo loadUserByUsername(String id) {
@@ -24,7 +25,7 @@ public class UserService implements UserDetailsService {
     }
 
     public String save(String email, String password, String confirmPassword) {
-        if(isPasswordCoincide(password,confirmPassword) == false){
+        if (isPasswordCoincide(password, confirmPassword) == false) {
             throw new IllegalArgumentException("password and confirmPassword are different");
         }
 

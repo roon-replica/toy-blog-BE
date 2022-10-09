@@ -1,4 +1,4 @@
-package toy.blog.be.user.dto;
+package toy.blog.be.controller.user.dto;
 
 import lombok.Getter;
 import lombok.Setter;
