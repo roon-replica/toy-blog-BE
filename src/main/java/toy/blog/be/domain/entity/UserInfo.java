@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 import toy.blog.be.domain.value.Role;
 import toy.blog.be.infra.IdGenerator;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Getter
 public class UserInfo implements UserDetails {

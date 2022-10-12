@@ -1,13 +1,16 @@
 package toy.blog.be.domain.entity;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import toy.blog.be.infra.IdGenerator;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Entity
 public class Keywords {

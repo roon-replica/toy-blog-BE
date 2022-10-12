@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 public class Post {
     @Id
@@ -27,7 +27,7 @@ public class Post {
     private int viewCount;
 
     @ElementCollection
-    @CollectionTable(name = "keywords", joinColumns = @JoinColumn(name = "post_id"))
+    @CollectionTable(name = "keywordIds", joinColumns = @JoinColumn(name = "post_id"))
     private Set<String> keywordIds = new HashSet<>();
 
     private LocalDateTime createdAt;

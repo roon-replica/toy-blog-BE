@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -28,11 +29,13 @@ public class PostService {
     Function<Post, PostResponse> converter = post ->    //todo: keyword 추가 필요
             PostResponse.builder()
                     .id(post.getId())
+                    .title(post.getTitle())
                     .content(post.getContent())
                     .writerId(post.getWriterId())
                     .viewCount(post.getViewCount())
                     .createdAt(post.getCreatedAt())
                     .modifiedAt(post.getModifiedAt())
+                    .keywords(getKeywords(post.getKeywordIds()))
                     .build();
 
     @Transactional(readOnly = true)
@@ -107,6 +110,12 @@ public class PostService {
 
         return keywordIds;
 
+    }
+
+    private Set<Keywords> getKeywords(Set<String> keywordIds) {
+        return keywordIds.stream()
+                .map(id -> keywordRepository.findById(id).orElseThrow(EntityNotFoundException::new))
+                .collect(Collectors.toSet());
     }
 
 }

@@ -31,9 +31,9 @@ public class PostApiController {
 
     @Operation(summary = "get single post by id")
     @GetMapping("/post")
-    public ResponseEntity<PostResponse> getPost(String postId) {
+    public ResponseEntity<PostResponse> getPost(String id) {
         return ResponseEntity.ok()
-                .body(postService.getPost(postId));
+                .body(postService.getPost(id));
     }
 
     @Operation(summary = "create post")
