@@ -47,10 +47,11 @@ public class Post {
     }
 
     //todo: keyword 아직 구현 안 됨
-    public void update(String title, String content, String writerId, List<String> keywords){
+    public void update(String title, String content, String writerId, Set<String> keywordIds){
         this.title =title;
         this.content = content;
         this.writerId = writerId;
+        this.keywordIds = keywordIds;
 
         this.modifiedAt = LocalDateTime.now();
 

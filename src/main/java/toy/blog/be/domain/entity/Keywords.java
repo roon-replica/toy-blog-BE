@@ -1,15 +1,14 @@
 package toy.blog.be.domain.entity;
 
-import lombok.EqualsAndHashCode;
+import lombok.Builder;
 import lombok.Getter;
+import toy.blog.be.infra.IdGenerator;
 
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Getter
-@EqualsAndHashCode // todo: 정확히 모름
 @Entity
 public class Keywords {
     @Id
@@ -21,4 +20,14 @@ public class Keywords {
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    @Builder
+    public Keywords(String id, String word) {
+        this.id = id;
+        this.word = word;
+
+        var now = LocalDateTime.now();
+        this.createdAt = now;
+        this.modifiedAt = now;
+    }
 }

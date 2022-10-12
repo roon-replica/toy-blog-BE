@@ -7,13 +7,16 @@ import org.springframework.transaction.annotation.Transactional;
 import toy.blog.be.controller.PagedRequest;
 import toy.blog.be.controller.PagedResponse;
 import toy.blog.be.controller.post.dto.response.PostResponse;
+import toy.blog.be.domain.entity.Keywords;
 import toy.blog.be.domain.entity.Post;
 import toy.blog.be.infra.IdGenerator;
 import toy.blog.be.repository.KeywordRepository;
 import toy.blog.be.repository.PostRepository;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
@@ -21,7 +24,6 @@ import java.util.function.Function;
 public class PostService {
     private final PostRepository postRepository;
     private final KeywordRepository keywordRepository;
-
 
     Function<Post, PostResponse> converter = post ->    //todo: keyword 추가 필요
             PostResponse.builder()
@@ -49,7 +51,6 @@ public class PostService {
         return converter.apply(post);
     }
 
-    //todo: keyword 관리 로직 구현 필요
     @Transactional
     public String createPost(String title, String content, String writerId, List<String> keywords) {
         var post = Post.builder()
@@ -57,9 +58,10 @@ public class PostService {
                 .title(title)
                 .content(content)
                 .writerId(writerId)
+                .keywordIds(getKeywordIds(keywords))
                 .build();
 
-        return postRepository.save(post).getId();
+        return postRepository.save(post).getId();   //todo: 명시적으로 저장을 꼭 해야 하던가?
     }
 
     @Transactional
@@ -67,7 +69,9 @@ public class PostService {
         var post = postRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
-        post.update(title, content, writerId, keywords);
+        var keywordIds = getKeywordIds(keywords);
+
+        post.update(title, content, writerId, keywordIds);
 
         return post.getId();
     }
@@ -80,7 +84,29 @@ public class PostService {
         postRepository.delete(post);
     }
 
+    private Set<String> getKeywordIds(List<String> words) {
+        var keywordIds = new HashSet<String>();
 
+        for (String word : words) {
+            var keywordId = keywordRepository.findKeywordsByWord(word)
+                    .orElseGet(() -> {
+                                var newKeyword = Keywords.builder()
+                                        .id(IdGenerator.newId())
+                                        .word(word)
+                                        .build();
 
+                                keywordRepository.save(newKeyword);
+
+                                return newKeyword;
+                            }
+                    )
+                    .getId();
+
+            keywordIds.add(keywordId);
+        }
+
+        return keywordIds;
+
+    }
 
 }
