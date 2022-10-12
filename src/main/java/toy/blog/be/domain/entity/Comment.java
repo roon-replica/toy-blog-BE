@@ -1,4 +1,4 @@
-package toy.blog.be.domain;
+package toy.blog.be.domain.entity;
 
 import lombok.AccessLevel;
 import lombok.Getter;

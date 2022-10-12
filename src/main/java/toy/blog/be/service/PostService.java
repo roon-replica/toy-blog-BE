@@ -1,15 +1,15 @@
 package toy.blog.be.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toy.blog.be.controller.PagedRequest;
 import toy.blog.be.controller.PagedResponse;
 import toy.blog.be.controller.post.dto.response.PostResponse;
-import toy.blog.be.domain.Post;
+import toy.blog.be.domain.entity.Post;
 import toy.blog.be.infra.IdGenerator;
+import toy.blog.be.repository.KeywordRepository;
 import toy.blog.be.repository.PostRepository;
 
 import javax.persistence.EntityNotFoundException;
@@ -20,6 +20,7 @@ import java.util.function.Function;
 @Service
 public class PostService {
     private final PostRepository postRepository;
+    private final KeywordRepository keywordRepository;
 
 
     Function<Post, PostResponse> converter = post ->    //todo: keyword 추가 필요
@@ -78,4 +79,8 @@ public class PostService {
 
         postRepository.delete(post);
     }
+
+
+
+
 }

@@ -1,4 +1,4 @@
-package toy.blog.be.domain;
+package toy.blog.be.domain.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -34,11 +34,12 @@ public class Post {
     private LocalDateTime modifiedAt;
 
     @Builder
-    public Post(String id, String title, String content, String writerId) {
+    public Post(String id, String title, String content, String writerId, Set<String> keywordIds) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.writerId = writerId;
+        this.keywordIds = keywordIds;
 
         var now = LocalDateTime.now();
         this.createdAt = now;

@@ -10,7 +10,7 @@ import toy.blog.be.controller.PagedResponse;
 import toy.blog.be.controller.post.dto.request.PostCreateRequest;
 import toy.blog.be.controller.post.dto.request.PostUpdateRequest;
 import toy.blog.be.controller.post.dto.response.PostResponse;
-import toy.blog.be.domain.Post;
+import toy.blog.be.domain.entity.Post;
 import toy.blog.be.service.PostService;
 
 import javax.validation.Valid;
