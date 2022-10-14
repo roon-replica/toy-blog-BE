@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -24,6 +23,7 @@ public class WebSecurityConfig {
                 .passwordEncoder(passwordEncoder()::encode)
                 .username("user")
                 .password("1234")
+                .roles("ADMIN")
                 .build();
         // for test
         return new InMemoryUserDetailsManager(user);
@@ -64,6 +64,5 @@ public class WebSecurityConfig {
 
 //    @Bean
 //    public WebSecurityCustomizer webSecurityCustomizer() {
-//
 //    }
 }
