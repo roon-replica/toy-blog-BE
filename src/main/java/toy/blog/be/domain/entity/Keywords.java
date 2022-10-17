@@ -33,4 +33,12 @@ public class Keywords {
         this.createdAt = now;
         this.modifiedAt = now;
     }
+
+    public void increaseCount() {
+        useCount++;
+    }
+
+    public void decreaseCount() {
+        useCount--;
+    }
 }

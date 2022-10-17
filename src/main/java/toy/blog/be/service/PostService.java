@@ -55,13 +55,21 @@ public class PostService {
     }
 
     @Transactional
-    public String createPost(String title, String content, String writerId, List<String> keywords) {
+    public String createPost(String title, String content, String writerId, List<String> keywordStrings) {
+        var keywords = makeKeywords(keywordStrings);
+        keywords.forEach(Keywords::increaseCount);
+        keywordRepository.saveAll(keywords);
+
+        var keywordIds = keywords.stream()
+                .map(Keywords::getId)
+                .collect(Collectors.toSet());
+
         var post = Post.builder()
                 .id(IdGenerator.newId())
                 .title(title)
                 .content(content)
                 .writerId(writerId)
-                .keywordIds(getKeywordIds(keywords))
+                .keywordIds(keywordIds)
                 .build();
 
         return postRepository.save(post).getId();   //todo: 명시적으로 저장을 꼭 해야 하던가?
@@ -72,26 +80,39 @@ public class PostService {
         var post = postRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
-        var keywordIds = getKeywordIds(keywords);
+        var oldKeywords = getKeywords(post.getKeywordIds());
+        oldKeywords.forEach(Keywords::decreaseCount);
 
-        post.update(title, content, writerId, keywordIds);
+        var newKeywords = makeKeywords(keywords);
+        newKeywords.forEach(Keywords::increaseCount);
+        keywordRepository.saveAll(newKeywords);
+
+        var newKeywordIds = newKeywords.stream()
+                .map(Keywords::getId)
+                .collect(Collectors.toSet());
+
+        post.update(title, content, writerId, newKeywordIds);
 
         return post.getId();
     }
 
+    // todo: 삭제된 글의 comment도 모두 삭제해야 함.
     @Transactional
     public void deletePost(String id) {
         var post = postRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
+        var keywords = getKeywords(post.getKeywordIds());
+        keywords.forEach(Keywords::decreaseCount);
+
         postRepository.delete(post);
     }
 
-    private Set<String> getKeywordIds(List<String> words) {
-        var keywordIds = new HashSet<String>();
+    private Set<Keywords> makeKeywords(List<String> words) {
+        var keywords = new HashSet<Keywords>();
 
         for (String word : words) {
-            var keywordId = keywordRepository.findKeywordsByWord(word)
+            var keyword = keywordRepository.findKeywordsByWord(word)
                     .orElseGet(() -> {
                                 var newKeyword = Keywords.builder()
                                         .id(IdGenerator.newId())
@@ -102,13 +123,12 @@ public class PostService {
 
                                 return newKeyword;
                             }
-                    )
-                    .getId();
+                    );
 
-            keywordIds.add(keywordId);
+            keywords.add(keyword);
         }
 
-        return keywordIds;
+        return keywords;
 
     }
 
