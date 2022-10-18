@@ -1,33 +1,44 @@
-package toy.blog.be.domain;
+package toy.blog.be.domain.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import toy.blog.be.infra.IdGenerator;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Comment {
+public class Keywords {
     @Id
     private String id;
 
-    private String content;
-    private String writerId;
+    private String word;
+
+    private int useCount;
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public Comment(String id, String content, String writerId) {
+    @Builder
+    public Keywords(String id, String word) {
         this.id = id;
-        this.content = content;
-        this.writerId = writerId;
+        this.word = word;
 
         var now = LocalDateTime.now();
         this.createdAt = now;
         this.modifiedAt = now;
+    }
+
+    public void increaseCount() {
+        useCount++;
+    }
+
+    public void decreaseCount() {
+        useCount--;
     }
 }

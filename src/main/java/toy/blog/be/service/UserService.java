@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import toy.blog.be.domain.UserInfo;
+import toy.blog.be.domain.entity.UserInfo;
 import toy.blog.be.domain.value.Role;
 import toy.blog.be.repository.UserRepository;
 

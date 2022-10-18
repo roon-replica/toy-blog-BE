@@ -1,4 +1,4 @@
-package toy.blog.be.domain;
+package toy.blog.be.domain.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 public class Post {
     @Id
@@ -27,18 +27,19 @@ public class Post {
     private int viewCount;
 
     @ElementCollection
-    @CollectionTable(name = "keywords", joinColumns = @JoinColumn(name = "post_id"))
+    @CollectionTable(name = "keywordIds", joinColumns = @JoinColumn(name = "post_id"))
     private Set<String> keywordIds = new HashSet<>();
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
     @Builder
-    public Post(String id, String title, String content, String writerId) {
+    public Post(String id, String title, String content, String writerId, Set<String> keywordIds) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.writerId = writerId;
+        this.keywordIds = keywordIds;
 
         var now = LocalDateTime.now();
         this.createdAt = now;
@@ -46,10 +47,11 @@ public class Post {
     }
 
     //todo: keyword 아직 구현 안 됨
-    public void update(String title, String content, String writerId, List<String> keywords){
+    public void update(String title, String content, String writerId, Set<String> keywordIds){
         this.title =title;
         this.content = content;
         this.writerId = writerId;
+        this.keywordIds = keywordIds;
 
         this.modifiedAt = LocalDateTime.now();
 
