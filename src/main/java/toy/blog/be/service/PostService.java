@@ -26,7 +26,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final KeywordRepository keywordRepository;
 
-    Function<Post, PostResponse> converter = post ->    //todo: keyword 추가 필요
+    Function<Post, PostResponse> converter = post ->
             PostResponse.builder()
                     .id(post.getId())
                     .title(post.getTitle())

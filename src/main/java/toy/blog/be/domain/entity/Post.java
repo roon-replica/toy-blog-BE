@@ -46,7 +46,6 @@ public class Post {
         this.modifiedAt = now;
     }
 
-    //todo: keyword 아직 구현 안 됨
     public void update(String title, String content, String writerId, Set<String> keywordIds) {
         this.title = title;
         this.content = content;
