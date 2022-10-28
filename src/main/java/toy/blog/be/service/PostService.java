@@ -26,7 +26,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final KeywordRepository keywordRepository;
 
-    Function<Post, PostResponse> converter = post ->    //todo: keyword 추가 필요
+    Function<Post, PostResponse> converter = post ->
             PostResponse.builder()
                     .id(post.getId())
                     .title(post.getTitle())
@@ -46,10 +46,12 @@ public class PostService {
         return new PagedResponse<>(response, converter);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional // readOnly 속성주면 post.increaseViewCount() 동작 안 함!!
     public PostResponse getPost(String id) {
         var post = postRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
+
+        post.increaseViewCount();
 
         return converter.apply(post);
     }
