@@ -18,7 +18,7 @@ import toy.blog.be.domain.value.UserProfile;
 import toy.blog.be.repository.OAuthUserRepository;
 
 import java.util.Collections;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -35,7 +35,7 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
     }
 
     private Map<String, Object> customAttribute(Map<String, Object> attributes, String userNameAttributeName, UserProfile userProfile, String registrationId) {
-        Map<String, Object> customAttribute = new LinkedHashMap<>();
+        Map<String, Object> customAttribute = new HashMap<>();
         customAttribute.put(userNameAttributeName, attributes.get(userNameAttributeName));
         customAttribute.put("provider", registrationId);
         customAttribute.put("name", userProfile.getName());
@@ -54,6 +54,7 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
                                                     .getUserInfoEndpoint()
                                                     .getUserNameAttributeName();
         Map<String, Object> attributes = oAuth2User.getAttributes();
+        // 잘 들어왔는지 확인하기 위한 log
         try {
             log.info("attributes = {}", new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(attributes));
         } catch (JsonProcessingException e) {
