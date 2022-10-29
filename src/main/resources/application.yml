@@ -5,5 +5,19 @@ springdoc:
     path: /swagger-ui.html
     disable-swagger-default-url: true
   packages-to-scan: toy.blog.be
+spring:
+  profiles:
+    include: oauth
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ENC(4CU2XuKT4sSqyVB1R6fzjlvJvqB9+vTO9bPp1HDfdWKiWApnmIcAZgel+OmLrMfFuqXGZd5prqC2hApWSiuQ2gv12TE0U6EYz9pCVaxyUrvCjVMNDORhbw==)
+            client-secret: ENC(Fee2G2UO+DSV8YqAke5wSW/xh14KaL4N0pb1VjgsN2EaaPLNJhhBtJJowpCl06ty)
+            scope: profile, email
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
 
 
