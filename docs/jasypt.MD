@@ -1,13 +1,14 @@
 - 참고 자료
-  - https://github.com/ulisesbocchio/jasypt-spring-boot
+  - [만든사람 github](https://github.com/ulisesbocchio/jasypt-spring-boot)
 
+- [jasypt 암/복호화 사이트](https://www.devglan.com/online-tools/jasypt-online-encryption-decryption)
 
-### introduction 
+### 개 
 - Jasypt( Java Simplified Encryption)-spring-boot
   - property를 암호화할 수 있게 해준다고 함.
 
-### 사용 이유
-- 설정 파일에 민감한 정보 암호화하기 위해
+- 사용 이유
+  - 설정 파일에 민감한 정보 암호화하기 위해
 
 ### 사용 방법
 1. 의존성
@@ -15,7 +16,7 @@
   implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '1.2'
   ```
 
-2. encryptor 객체 만들고 bean으로 등록
+2. encryptor 객체를 만들고 bean으로 등록하
 
 
 3. 암호화 secret key 정하고, 암호화한 문자열 프로퍼티 파일에 등록
