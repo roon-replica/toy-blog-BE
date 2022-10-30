@@ -1,0 +1,18 @@
+# encrypt the text "Password@1? with secret key "password"
+#encrypted:
+#  property: ENC(uTSqb9grs1+vUv3iN8lItC0kl65lMG+8)
+
+
+#jasypt:
+#  encryptor:
+#    property: ENC(uTSqb9grs1+vUv3iN8lItC0kl65lMG+8)
+
+# secret key
+# ???? encrypt, descript? ? ??.
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+    secret-key: salting # ?? ??? ?? ? ??
+
+  test:
+     encrypted: ENC(c7Vzile9bm2sxl/NHEHF7yr1CGsy8wlw7eokvkfwIzSLRwVdRjltuZaa9jg28vgF)

@@ -6,4 +6,7 @@ springdoc:
     disable-swagger-default-url: true
   packages-to-scan: toy.blog.be
 
-
+spring:
+  config:
+    import:
+      - classpath:/encrypted.yml
