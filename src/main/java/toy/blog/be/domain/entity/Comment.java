@@ -1,6 +1,7 @@
 package toy.blog.be.domain.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ public class Comment {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
+    @Builder
     public Comment(String id, String content, String writerId) {
         this.id = id;
         this.content = content;
@@ -29,5 +31,11 @@ public class Comment {
         var now = LocalDateTime.now();
         this.createdAt = now;
         this.modifiedAt = now;
+    }
+
+    public void update(String content, String writerId){
+        this.content = content;
+        this.writerId = writerId;
+        this.modifiedAt = LocalDateTime.now();
     }
 }
