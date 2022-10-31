@@ -37,4 +37,8 @@ public class OAuthUserInfo {
         this.email = email;
         return this;
     }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }
