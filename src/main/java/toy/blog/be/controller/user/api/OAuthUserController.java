@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
+import toy.blog.be.controller.user.dto.request.NicknameCheckRequest;
 import toy.blog.be.controller.user.dto.request.NicknameUpdateRequest;
 import toy.blog.be.service.OAuthUserService;
 
@@ -24,6 +25,12 @@ public class OAuthUserController {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         Map<String, Object> attributes = oAuth2User.getAttributes();
         return attributes.toString();
+    }
+
+    @GetMapping("/check-nickname")
+    public ResponseEntity<Boolean> checkNickname(@Valid @RequestBody NicknameCheckRequest nicknameCheckRequest) {
+        return ResponseEntity.ok()
+                .body(oAuthUserService.checkNicknameDuplicate(nicknameCheckRequest.getNickname()));
     }
 
     @PostMapping("/update-nickname")

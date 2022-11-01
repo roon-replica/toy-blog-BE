@@ -12,6 +12,10 @@ import javax.persistence.EntityNotFoundException;
 public class OAuthUserService {
     private final OAuthUserRepository oAuthUserRepository;
 
+    public boolean checkNicknameDuplicate(String nickname) {
+        return oAuthUserRepository.existsByNickname(nickname);
+    }
+
     @Transactional
     public String updateNickname(String id, String nickname) {
         var oAuthUserInfo = oAuthUserRepository.findById(id)

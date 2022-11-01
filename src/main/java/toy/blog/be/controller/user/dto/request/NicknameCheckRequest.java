@@ -5,8 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class NicknameUpdateRequest {
-    private String id;
+public class NicknameCheckRequest {
     @NotEmpty
     private String nickname;
 }
