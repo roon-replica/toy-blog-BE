@@ -9,6 +9,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import toy.blog.be.infra.IdGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @DynamicUpdate
@@ -22,6 +23,8 @@ public class OAuthUserInfo {
     private String email;
     private String provider;
     private String nickname;
+    private LocalDateTime createAt;
+    private LocalDateTime modifiedAt;
 
     @Builder
     public OAuthUserInfo(String name, String email, String provider, String nickname) {
@@ -30,11 +33,20 @@ public class OAuthUserInfo {
         this.email = email;
         this.provider = provider;
         this.nickname = nickname;
+        var now = LocalDateTime.now();
+        this.createAt = now;
+        this.modifiedAt = now;
     }
 
     public OAuthUserInfo update(String name, String email) {
         this.name = name;
         this.email = email;
+        this.modifiedAt = LocalDateTime.now();
         return this;
+    }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+        this.modifiedAt = LocalDateTime.now();
     }
 }
