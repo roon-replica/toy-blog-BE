@@ -32,7 +32,7 @@ class JasyptConfigTest {
     @Test
     void encryp_test () {
         // given
-        String source = "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";
+        String source = "암호화할 문자열";
 
         // when
         String encrypted = encryptor.encrypt(source);
