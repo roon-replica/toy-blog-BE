@@ -7,4 +7,8 @@ import toy.blog.be.domain.entity.Follow;
 
 @Repository
 public interface FollowRepository extends JpaRepository<Follow, FollowID> {
+    Long countFollowByFollowerId(String followerId);
+    Long countFollowByFolloweeId(String followeeId);
+//    List<Follow> findAllByFollowerId(String followerId);
+//    List<Follow> findAllByFolloweeId(String followeeId);
 }
