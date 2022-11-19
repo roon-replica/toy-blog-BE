@@ -16,8 +16,23 @@ spring:
             client-id: ENC(4CU2XuKT4sSqyVB1R6fzjlvJvqB9+vTO9bPp1HDfdWKiWApnmIcAZgel+OmLrMfFuqXGZd5prqC2hApWSiuQ2gv12TE0U6EYz9pCVaxyUrvCjVMNDORhbw==)
             client-secret: ENC(Fee2G2UO+DSV8YqAke5wSW/xh14KaL4N0pb1VjgsN2EaaPLNJhhBtJJowpCl06ty)
             scope: profile, email
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 50MB
+
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
+
+aws:
+  s3:
+    accessKey: ENC(P2Afg95t5s4wMYbnmTRXGQPy9XLzUyU1MmB4R3ckaqU=)
+    secretKey: ENC(hcNmsHupiDBTnpGO+5TSVJ6vI6nCdjVVa2VUMu25LATNmtYGZJZVgGLuEB0KQpdg3/dNExzRJAI=)
+    bucket-names:
+      toy-be-image: toy-be-image
+    filePath: #/images
 
 
