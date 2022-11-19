@@ -21,7 +21,7 @@
 - aws
   - ec2
     - tomcat
-    - nginx
+    - nginx (file serving, reverse proxy?)
   - RDS
     - mariaDB
   - S3
