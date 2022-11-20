@@ -4,10 +4,11 @@
 - 개발, 배포, 협업 연습
 
 ### 사용
-- api 명세 보는 방법 : 애플리케이션 구동 후 http://localhost:8080/swagger-ui.html 접속
-- [배포된 사이트](http://ec2-43-200-196-233.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/index.html)
-
-
+- URIs
+  - [nginx 정적 파일 서빙 테스트](http://ec2-43-200-196-233.ap-northeast-2.compute.amazonaws.com/www/test.html)
+  - [nginx 프록시 서버 역할 테스트](http://ec2-43-200-196-233.ap-northeast-2.compute.amazonaws.com/www/test.html): not working...
+  - [API 문서 확인하기](http://ec2-43-200-196-233.ap-northeast-2.compute.amazonaws.com/swagger-ui.html) : not working...
+  
 ### BE 개발 스택
 - java 11+
 - spring framework
