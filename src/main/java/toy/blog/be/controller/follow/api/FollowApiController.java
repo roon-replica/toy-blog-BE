@@ -7,17 +7,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import toy.blog.be.controller.follow.dto.FollowID;
+import toy.blog.be.controller.follow.dto.FollowResponse;
 import toy.blog.be.domain.entity.OAuthUserInfo;
 import toy.blog.be.service.FollowService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.function.Function;
 
 @RequestMapping("/follow")
 @RequiredArgsConstructor
 @RestController
 public class FollowApiController {
     private final FollowService followService;
+
+    private Function<List<OAuthUserInfo>, FollowResponse> converter = oAuthUserInfos -> FollowResponse.builder()
+            .oAuthUserInfos(oAuthUserInfos)
+            .build();
+
     @GetMapping("/create-follow")
     public ResponseEntity<Void> createFollow(@RequestBody @Valid FollowID followID) {
         var id = followService.createFollow(
@@ -37,15 +44,15 @@ public class FollowApiController {
     }
 
     @GetMapping("/get-follower")
-    public ResponseEntity<List<OAuthUserInfo>> getFollower(String userId) {
+    public FollowResponse getFollower(String userId) {
         var followers = followService.getFollower(userId);
-        return ResponseEntity.ok().body(followers);
+        return converter.apply(followers);
     }
 
     @GetMapping("/get-followee")
-    public ResponseEntity<List<OAuthUserInfo>> getFollowee(String userId) {
-        var followees = followService.getFollower(userId);
-        return ResponseEntity.ok().body(followees);
+    public FollowResponse getFollowee(String userId) {
+        var followees = followService.getFollowee(userId);
+        return converter.apply(followees);
     }
 
     @GetMapping("/count-follower")
