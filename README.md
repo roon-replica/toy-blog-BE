@@ -5,8 +5,8 @@
 
 ### 사용
 - api 명세 보는 방법 : 애플리케이션 구동 후 http://localhost:8080/swagger-ui.html 접속
-- [배포된 사이트](http://ec2-43-200-196-233.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/index.html)
-
+- [배포된 사이트](http://ec2-43-200-196-233.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/index.html) - not working yet..
+- [nginx가 서빙하는 파일 확인](http://ec2-43-200-196-233.ap-northeast-2.compute.amazonaws.com/www/test.html)
 
 ### BE 개발 스택
 - java 11+
