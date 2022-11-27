@@ -1,6 +1,7 @@
 package toy.blog.be.domain.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import toy.blog.be.controller.follow.dto.FollowID;
@@ -9,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -19,4 +21,12 @@ public class Follow implements Serializable {
     private String followerId;
     @Id
     private String followeeId;
+    private LocalDateTime followedAt;
+
+    @Builder
+    Follow(String followerId, String followeeId) {
+        this.followerId = followerId;
+        this.followeeId = followeeId;
+        this.followedAt = LocalDateTime.now();
+    }
 }
