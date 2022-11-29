@@ -1,94 +1,52 @@
 package toy.blog.be.domain.entity;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import toy.blog.be.domain.value.Role;
+import org.hibernate.annotations.DynamicUpdate;
 import toy.blog.be.infra.IdGenerator;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@DynamicUpdate
 @Entity
 @Getter
-public class UserInfo implements UserDetails {
-
+public class UserInfo {
     @Id
-    @Column(name = "id")
     private String id;
 
-    @Column(name = "email", unique = true)
+    private String name;
     private String email;
-
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "auth")
-    private Role auth;
+    private String provider;
+    private String nickname;
+    private LocalDateTime createAt;
+    private LocalDateTime modifiedAt;
 
     @Builder
-    public UserInfo(String email, String password, Role auth) {
+    public UserInfo(String name, String email, String provider, String nickname) {
         this.id = IdGenerator.newId();
+        this.name = name;
         this.email = email;
-        this.password = password;
-        this.auth = auth;
+        this.provider = provider;
+        this.nickname = nickname;
+        var now = LocalDateTime.now();
+        this.createAt = now;
+        this.modifiedAt = now;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        //사용자 권한을 콜렉션 형태로 반환
-        Set<GrantedAuthority> roles = new HashSet<>();
-        roles.add(new SimpleGrantedAuthority(auth.name()));
-
-        return roles;
+    public UserInfo update(String name, String email) {
+        this.name = name;
+        this.email = email;
+        this.modifiedAt = LocalDateTime.now();
+        return this;
     }
 
-    @Override
-    public String getPassword() {
-        // 사용자 password 반환
-        return password;
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+        this.modifiedAt = LocalDateTime.now();
     }
-
-    @Override
-    public String getUsername() {
-        // 사용자 id를 반환
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        // 계정 만료 여부 반환
-        return true; // true -> 만료되지 않음
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        // 계정 잠금 여부 반환
-        return true; // true -> 잠금되지 않음
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        // password 만료 여부 반환
-        return true; // true -> 만료되지 않음
-    }
-
-    @Override
-    public boolean isEnabled() {
-        // 계정 사용 가능 여부 반환
-        return true; // true -> 계정 사용 가능
-    }
-
 }

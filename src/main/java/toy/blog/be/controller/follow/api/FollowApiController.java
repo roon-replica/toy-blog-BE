@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import toy.blog.be.controller.follow.dto.FollowID;
 import toy.blog.be.controller.follow.dto.FollowResponse;
-import toy.blog.be.domain.entity.OAuthUserInfo;
+import toy.blog.be.domain.entity.UserInfo;
 import toy.blog.be.service.FollowService;
 
 import javax.validation.Valid;
@@ -21,8 +21,8 @@ import java.util.function.Function;
 public class FollowApiController {
     private final FollowService followService;
 
-    private Function<List<OAuthUserInfo>, FollowResponse> converter = oAuthUserInfos -> FollowResponse.builder()
-            .oAuthUserInfos(oAuthUserInfos)
+    private Function<List<UserInfo>, FollowResponse> converter = oAuthUserInfos -> FollowResponse.builder()
+            .userInfos(oAuthUserInfos)
             .build();
 
     @GetMapping("/create-follow")

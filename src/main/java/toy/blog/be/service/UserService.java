@@ -1,44 +1,26 @@
 package toy.blog.be.service;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import toy.blog.be.domain.entity.UserInfo;
-import toy.blog.be.domain.value.Role;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import toy.blog.be.repository.UserRepository;
 
-@Service
+import javax.persistence.EntityNotFoundException;
+
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
-
+@Service
+public class UserService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
-
-    @Override
-    public UserInfo loadUserByUsername(String id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException(id));
+    public boolean checkNicknameDuplicate(String nickname) {
+        return userRepository.existsByNickname(nickname);
     }
 
-    public String save(String email, String password, String confirmPassword) {
-        if (isPasswordCoincide(password, confirmPassword) == false) {
-            throw new IllegalArgumentException("password and confirmPassword are different");
-        }
-
-        return userRepository.save(UserInfo.builder()
-                        .email(email)
-                        .password(passwordEncoder.encode(password))
-                        .auth(Role.USER)
-                        .build())
-                .getId();
+    @Transactional
+    public String updateNickname(String id, String nickname) {
+        var oAuthUserInfo = userRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        oAuthUserInfo.updateNickname(nickname);
+        return id;
     }
-
-    private boolean isPasswordCoincide(String password, String confirmPassword) {
-        return password.equals(confirmPassword);
-    }
-
 }

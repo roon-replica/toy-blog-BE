@@ -13,9 +13,9 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import org.springframework.stereotype.Service;
-import toy.blog.be.domain.entity.OAuthUserInfo;
+import toy.blog.be.domain.entity.UserInfo;
 import toy.blog.be.domain.value.UserProfile;
-import toy.blog.be.repository.OAuthUserRepository;
+import toy.blog.be.repository.UserRepository;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,13 +25,13 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Service
 public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-    private final OAuthUserRepository oAuthUserRepository;
+    private final UserRepository userRepository;
 
-    private OAuthUserInfo saveOrUpdate(UserProfile userProfile) {
-        OAuthUserInfo oAuthUserInfo = oAuthUserRepository.findByEmailAndProvider(userProfile.getEmail(), userProfile.getProvider())
+    private UserInfo saveOrUpdate(UserProfile userProfile) {
+        UserInfo userInfo = userRepository.findByEmailAndProvider(userProfile.getEmail(), userProfile.getProvider())
                 .map(m -> m.update(userProfile.getName(), userProfile.getEmail()))
                 .orElse(userProfile.toOAuthUserInfo());
-        return oAuthUserRepository.save(oAuthUserInfo);
+        return userRepository.save(userInfo);
     }
 
     private Map<String, Object> customAttribute(Map<String, Object> attributes, String userNameAttributeName, UserProfile userProfile, String registrationId) {
@@ -62,7 +62,7 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
         }
         UserProfile userProfile = OAuthAttributes.extract(registrationId, attributes);
         userProfile.setProvider(registrationId);
-        OAuthUserInfo oAuthUserInfo = saveOrUpdate(userProfile);
+        UserInfo userInfo = saveOrUpdate(userProfile);
         Map<String, Object> customAttribute = customAttribute(attributes, userNameAttributeName, userProfile, registrationId);
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("USER")),
