@@ -5,7 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import toy.blog.be.domain.entity.OAuthUserInfo;
+import toy.blog.be.domain.entity.UserInfo;
 import toy.blog.be.domain.entity.QFollow;
 import toy.blog.be.domain.entity.QOAuthUserInfo;
 
@@ -20,7 +20,7 @@ public class FollowRepositoryImpl {
     QFollow qFollow = QFollow.follow;
     QOAuthUserInfo qoAuthUserInfo = QOAuthUserInfo.oAuthUserInfo;
 
-    public List<OAuthUserInfo> getFollower(String followeeId) {
+    public List<UserInfo> getFollower(String followeeId) {
         return jpaQueryFactory
                 .selectFrom(qoAuthUserInfo)
                 .where(qoAuthUserInfo.id.in(JPAExpressions
@@ -30,7 +30,7 @@ public class FollowRepositoryImpl {
                 .fetch();
     }
 
-    public List<OAuthUserInfo> getFollowee(String followerId) {
+    public List<UserInfo> getFollowee(String followerId) {
         return jpaQueryFactory
                 .selectFrom(qoAuthUserInfo)
                 .where(qoAuthUserInfo.id.in(JPAExpressions

@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import toy.blog.be.controller.user.dto.request.NicknameCheckRequest;
 import toy.blog.be.controller.user.dto.request.NicknameUpdateRequest;
-import toy.blog.be.service.OAuthUserService;
+import toy.blog.be.service.UserService;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -17,8 +17,8 @@ import java.util.Map;
 @RequestMapping("/oauth")
 @RequiredArgsConstructor
 @RestController
-public class OAuthUserController {
-    private final OAuthUserService oAuthUserService;
+public class UserController {
+    private final UserService userService;
 
     @GetMapping("/loginInfo")
     public String oauthLoginInfo(Authentication authentication) {
@@ -30,12 +30,12 @@ public class OAuthUserController {
     @GetMapping("/check-nickname")
     public ResponseEntity<Boolean> checkNickname(@Valid @RequestBody NicknameCheckRequest nicknameCheckRequest) {
         return ResponseEntity.ok()
-                .body(oAuthUserService.checkNicknameDuplicate(nicknameCheckRequest.getNickname()));
+                .body(userService.checkNicknameDuplicate(nicknameCheckRequest.getNickname()));
     }
 
     @PostMapping("/update-nickname")
     public ResponseEntity<String> updateNickname(@Valid @RequestBody NicknameUpdateRequest nicknameUpdateRequest) {
-        var id = oAuthUserService.updateNickname(
+        var id = userService.updateNickname(
                 nicknameUpdateRequest.getId(),
                 nicknameUpdateRequest.getNickname()
         );

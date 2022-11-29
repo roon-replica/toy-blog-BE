@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import toy.blog.be.controller.follow.dto.FollowID;
 import toy.blog.be.domain.entity.Follow;
-import toy.blog.be.domain.entity.OAuthUserInfo;
+import toy.blog.be.domain.entity.UserInfo;
 import toy.blog.be.repository.FollowRepository;
 import toy.blog.be.repository.FollowRepositoryImpl;
 
@@ -49,14 +49,14 @@ public class FollowService {
     }
 
     @Transactional
-    public List<OAuthUserInfo> getFollower(String followeeId) {
+    public List<UserInfo> getFollower(String followeeId) {
         var followers = followRepositoryImpl.getFollower(followeeId);
         return followers; // TODO: list size 0 일때 처리 해줘야함
     }
 
 
     @Transactional
-    public List<OAuthUserInfo> getFollowee(String followerId) {
+    public List<UserInfo> getFollowee(String followerId) {
         var followees = followRepositoryImpl.getFollowee(followerId);
         return followees; // TODO: list size 0 일때 처리 해줘야함
     }
