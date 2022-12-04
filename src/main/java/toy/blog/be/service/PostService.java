@@ -7,8 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import toy.blog.be.controller.PagedRequest;
 import toy.blog.be.controller.PagedResponse;
 import toy.blog.be.controller.post.dto.response.PostResponse;
+import toy.blog.be.domain.entity.KeywordId;
 import toy.blog.be.domain.entity.Keywords;
 import toy.blog.be.domain.entity.Post;
+import toy.blog.be.domain.entity.PostId;
 import toy.blog.be.infra.IdGenerator;
 import toy.blog.be.repository.KeywordRepository;
 import toy.blog.be.repository.PostRepository;
@@ -28,7 +30,7 @@ public class PostService {
 
     Function<Post, PostResponse> converter = post ->
             PostResponse.builder()
-                    .id(post.getId())
+                    .id(post.getId().toString())
                     .title(post.getTitle())
                     .content(post.getContent())
                     .writerId(post.getWriterId())
@@ -47,7 +49,7 @@ public class PostService {
     }
 
     @Transactional // readOnly 속성주면 post.increaseViewCount() 동작 안 함!!
-    public PostResponse getPost(String id) {
+    public PostResponse getPost(PostId id) {
         var post = postRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
@@ -57,7 +59,7 @@ public class PostService {
     }
 
     @Transactional
-    public String createPost(String title, String content, String writerId, List<String> keywordStrings) {
+    public PostId createPost(String title, String content, String writerId, List<String> keywordStrings) {
         var keywords = makeKeywords(keywordStrings);
         keywords.forEach(Keywords::increaseCount);
         keywordRepository.saveAll(keywords);
@@ -67,23 +69,25 @@ public class PostService {
                 .collect(Collectors.toSet());
 
         var post = Post.builder()
-                .id(IdGenerator.newId())
+                .id(new PostId(IdGenerator.newId()))
                 .title(title)
                 .content(content)
                 .writerId(writerId)
                 .keywordIds(keywordIds)
                 .build();
 
-        return postRepository.save(post).getId();   //todo: 명시적으로 저장을 꼭 해야 하던가?
+        var savedPost = postRepository.save(post);
+
+        return savedPost.getId();
     }
 
     @Transactional
-    public String updatePost(String id, String title, String content, String writerId, List<String> keywords) {
+    public PostId updatePost(PostId id, String title, String content, String writerId, List<String> keywords) {
         var post = postRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
         var oldKeywords = getKeywords(post.getKeywordIds());
-        oldKeywords.forEach(Keywords::decreaseCount);
+//        oldKeywords.forEach(Keywords::decreaseCount);
 
         var newKeywords = makeKeywords(keywords);
         newKeywords.forEach(Keywords::increaseCount);
@@ -100,7 +104,7 @@ public class PostService {
 
     // todo: 삭제된 글의 comment도 모두 삭제해야 함.
     @Transactional
-    public void deletePost(String id) {
+    public void deletePost(PostId id) {
         var post = postRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
@@ -117,7 +121,7 @@ public class PostService {
             var keyword = keywordRepository.findKeywordsByWord(word)
                     .orElseGet(() -> {
                                 var newKeyword = Keywords.builder()
-                                        .id(IdGenerator.newId())
+                                        .id(new KeywordId(IdGenerator.newId()))
                                         .word(word)
                                         .build();
 
@@ -134,7 +138,7 @@ public class PostService {
 
     }
 
-    private Set<Keywords> getKeywords(Set<String> keywordIds) {
+    private Set<Keywords> getKeywords(Set<KeywordId> keywordIds) {
         return keywordIds.stream()
                 .map(id -> keywordRepository.findById(id).orElseThrow(EntityNotFoundException::new))
                 .collect(Collectors.toSet());

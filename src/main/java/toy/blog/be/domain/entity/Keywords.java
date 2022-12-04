@@ -6,16 +6,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import toy.blog.be.infra.IdGenerator;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@Table(name = "keywords")
 @Entity
 public class Keywords {
-    @Id
-    private String id;
+    @EmbeddedId
+    private KeywordId id;
 
     private String word;
 
@@ -25,7 +28,7 @@ public class Keywords {
     private LocalDateTime modifiedAt;
 
     @Builder
-    public Keywords(String id, String word) {
+    public Keywords(KeywordId id, String word) {
         this.id = id;
         this.word = word;
 

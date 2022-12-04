@@ -11,6 +11,7 @@ import toy.blog.be.controller.post.dto.request.PostCreateRequest;
 import toy.blog.be.controller.post.dto.request.PostUpdateRequest;
 import toy.blog.be.controller.post.dto.response.PostResponse;
 import toy.blog.be.domain.entity.Post;
+import toy.blog.be.domain.entity.PostId;
 import toy.blog.be.service.PostService;
 
 import javax.validation.Valid;
@@ -30,15 +31,15 @@ public class PostApiController {
     }
 
     @Operation(summary = "get single post by id")
-    @GetMapping("/post")
-    public ResponseEntity<PostResponse> getPost(String id) {
+    @GetMapping("/post/{id}")
+    public ResponseEntity<PostResponse> getPost(@PathVariable String id) {
         return ResponseEntity.ok()
-                .body(postService.getPost(id));
+                .body(postService.getPost(new PostId(id)));
     }
 
     @Operation(summary = "create post")
     @PostMapping("/create-post")
-    public ResponseEntity<String> createPost(@RequestBody @Valid PostCreateRequest requestDTO) {
+    public ResponseEntity<PostId> createPost(@RequestBody @Valid PostCreateRequest requestDTO) {
         return ResponseEntity.ok()
                 .body(postService.createPost(
                                 requestDTO.getTitle(),
@@ -51,10 +52,10 @@ public class PostApiController {
 
     @Operation(summary = "update post")
     @PostMapping("/update-post")
-    public ResponseEntity<String> updatePost(@RequestBody @Valid PostUpdateRequest requestDTO) {
+    public ResponseEntity<PostId> updatePost(@RequestBody @Valid PostUpdateRequest requestDTO) {
         return ResponseEntity.ok()
                 .body(postService.updatePost(
-                        requestDTO.getPostId(),
+                        new PostId(requestDTO.getPostId()),
                         requestDTO.getTitle(),
                         requestDTO.getContent(),
                         requestDTO.getWriterId(),
@@ -62,14 +63,13 @@ public class PostApiController {
                 );
     }
 
-    // todo:
-    //  soft delete?
+    // todo: soft delete?
     // post 삭제 시 댓글도 모두 삭제 필요
     // 이벤트 기반으로 구현?
     @Operation(summary = "delete post")
     @PostMapping("/delete-post")
     public ResponseEntity<Void> deletePost(String postId) {
-        postService.deletePost(postId);
+        postService.deletePost(new PostId(postId));
         return ResponseEntity.ok().build();
     }
 }

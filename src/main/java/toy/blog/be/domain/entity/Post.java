@@ -8,33 +8,45 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Table(name = "posts",
+        indexes = {
+                @Index(name = "idx_title", columnList = "title"),
+                @Index(name = "idx_created_at_modified_at", columnList = "createdAt, modifiedAt")
+        }
+)
 @Entity
 public class Post {
-    @Id
-    private String id;
+    @EmbeddedId
+    private PostId id;
 
+    @Column(name = "title", columnDefinition = "varchar(200)", nullable = false)
     private String title;
 
+    @Column(name = "content", columnDefinition = "longtext")
     private String content;
 
+    @Column(columnDefinition = "varchar(10)")
     private String writerId; //todo: writerId 가지고 있으면 되겠지?
 
+    @Column(columnDefinition = "int")
     private int viewCount;
 
     @ElementCollection
-    @CollectionTable(name = "keywordIds", joinColumns = @JoinColumn(name = "post_id"))
-    private Set<String> keywordIds = new HashSet<>();
+    @CollectionTable(name = "keyword_ids", joinColumns = @JoinColumn(name = "post_id", columnDefinition = "varchar(10)"))
+    private Set<KeywordId> keywordIds = new HashSet<>();
 
+    @Column(columnDefinition = "datetime(6)")
     private LocalDateTime createdAt;
+
+    @Column(columnDefinition = "datetime(6)")
     private LocalDateTime modifiedAt;
 
     @Builder
-    public Post(String id, String title, String content, String writerId, Set<String> keywordIds) {
+    public Post(PostId id, String title, String content, String writerId, Set<KeywordId> keywordIds) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -46,7 +58,7 @@ public class Post {
         this.modifiedAt = now;
     }
 
-    public void update(String title, String content, String writerId, Set<String> keywordIds) {
+    public void update(String title, String content, String writerId, Set<KeywordId> keywordIds) {
         this.title = title;
         this.content = content;
         this.writerId = writerId;
