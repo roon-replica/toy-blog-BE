@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toy.blog.be.controller.PagedRequest;
 import toy.blog.be.controller.PagedResponse;
+import toy.blog.be.controller.post.dto.response.KeywordDTO;
 import toy.blog.be.controller.post.dto.response.PostResponse;
 import toy.blog.be.domain.entity.KeywordId;
 import toy.blog.be.domain.entity.Keywords;
@@ -37,7 +38,7 @@ public class PostService {
                     .viewCount(post.getViewCount())
                     .createdAt(post.getCreatedAt())
                     .modifiedAt(post.getModifiedAt())
-                    .keywords(getKeywords(post.getKeywordIds()))
+                    .keywords(toKeywordDTOs(post.getKeywordIds()))
                     .build();
 
     @Transactional(readOnly = true)
@@ -141,6 +142,13 @@ public class PostService {
     private Set<Keywords> getKeywords(Set<KeywordId> keywordIds) {
         return keywordIds.stream()
                 .map(id -> keywordRepository.findById(id).orElseThrow(EntityNotFoundException::new))
+                .collect(Collectors.toSet());
+    }
+
+    private Set<KeywordDTO> toKeywordDTOs(Set<KeywordId> keywordIds){
+        return keywordIds.stream()
+                .map(id -> keywordRepository.findById(id).orElseThrow(EntityNotFoundException::new))
+                .map(KeywordDTO::new)
                 .collect(Collectors.toSet());
     }
 

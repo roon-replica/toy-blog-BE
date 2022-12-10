@@ -17,7 +17,7 @@ public class PostResponse {
     private String content;
     private String writerId;
 
-    private Set<Keywords> keywords;
+    private Set<KeywordDTO> keywords;
 
     private int viewCount;
 
