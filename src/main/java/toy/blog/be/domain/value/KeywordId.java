@@ -1,4 +1,4 @@
-package toy.blog.be.domain.entity;
+package toy.blog.be.domain.value;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -14,13 +14,13 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Embeddable
-public class PostId implements Serializable {
+public class KeywordId implements Serializable {
     @Column(columnDefinition = "varchar(10)")
     private String id;
 
-    public PostId(String id){
+    public KeywordId(String id){
         if(ObjectUtils.isEmpty(id)){
-            throw new IllegalArgumentException("post id must not be null nor empty");
+            throw new IllegalArgumentException("keyword must not be null nor empty");
         }
         this.id = id;
     }

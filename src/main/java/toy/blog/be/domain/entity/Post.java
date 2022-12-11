@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import toy.blog.be.domain.value.KeywordId;
+import toy.blog.be.domain.value.PostId;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
